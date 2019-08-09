@@ -14,7 +14,6 @@ class TweetsController extends BaseController
 
     public function store(Request $request)
     {
-
         $messages = [
             'max' => ':attribute Field must be equal or less than :max characters.',
         ];
@@ -33,5 +32,22 @@ class TweetsController extends BaseController
             return $this->sendError('Tweet could not be added', $e->getMessage(), $e->getCode());
         }
 
+    }
+
+
+    public function destroy($id)
+    {
+        $tweet = auth()->user()->tweets()->find($id);
+
+        if (!$tweet) {
+            return $this->sendError('Tweet not found', null, 400);
+        }
+
+        try {
+            $tweet->delete();
+            return $this->sendResponse($tweet, 'deleted successfully');
+        } catch (Exception $e) {
+            return $this->sendError('Tweet could not be deleted', $e->getMessage(), $e->getCode());
+        }
     }
 }
