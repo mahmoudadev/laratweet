@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Tweet extends Model
 {
 
-    protected $fillable = [ 'user_id', 'content'];
+    protected $fillable = ['content'];
 
     /**
      * Get the user that owns the tweet.
