@@ -18,7 +18,11 @@ Route::post('login', 'API\AuthController@login');
 
 Route::middleware('auth:api')->group( function () {
 
-    Route::resource('tweets', 'API\TweetsController');
+
+    Route::get('users/follow/{user}', 'API\UsersFollowController@follow');
+
+    Route::post('tweets/', 'API\TweetsController@store');
+    Route::delete('tweets/{tweet}', 'API\TweetsController@destroy');
 
 });
 
