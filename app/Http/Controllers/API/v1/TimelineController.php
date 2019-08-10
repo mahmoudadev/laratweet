@@ -16,8 +16,16 @@ class TimelineController extends BaseController
     public function index()
     {
         $response = [];
-        $followings = auth()->user()->followings;
+        $userTweets = auth()->user()->tweets;
+        // adding auth user tweets to the response
+        if (!empty($userTweets)) {
+            foreach ($userTweets as $userTweet) {
+                $response [] = $userTweet;
+            }
+        }
 
+        $followings = auth()->user()->followings;
+        // adding user followings tweets to the response
         foreach ($followings as $following) {
             $tweets = $following->tweets;
             if (!empty($tweets)) {
