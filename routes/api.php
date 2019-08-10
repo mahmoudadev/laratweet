@@ -25,7 +25,7 @@ Route::group(['prefix' => 'v1'], function () {
 Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
 
 
-    Route::get('users/follow/{user}', 'API\v1\UsersFollowController@follow');
+    Route::post('users/{user}/follow', 'API\v1\UsersFollowController@follow');
     Route::get('timeline', 'API\v1\TimelineController@index');
     Route::post('tweets/', 'API\v1\TweetsController@store');
     Route::delete('tweets/{tweet}', 'API\v1\TweetsController@destroy');

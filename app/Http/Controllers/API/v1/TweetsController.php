@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Tweet;
 use Illuminate\Http\Request;
+use App\Http\Requests\TweetStoreRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\API\BaseController as BaseController;
 use Exception;
@@ -12,15 +13,8 @@ use Exception;
 class TweetsController extends BaseController
 {
 
-    public function store(Request $request)
+    public function store(TweetStoreRequest $request)
     {
-        $messages = [
-            'max' => ':attribute Field must be equal or less than :max characters.',
-        ];
-
-        $this->validate($request, [
-            'content' => 'required|max:140',
-        ], $messages);
 
         $tweet = new Tweet();
         $tweet->content = $request->get('content');
@@ -35,13 +29,16 @@ class TweetsController extends BaseController
     }
 
 
-    public function destroy($id)
+    public function destroy(Tweet $tweet)
     {
-        $tweet = auth()->user()->tweets()->find($id);
+        // IF I we need to restrict this endpoint to destroy only
+        // the tweets that owned by authenticated user
 
-        if (!$tweet) {
-            return $this->sendError('Tweet not found', null, 400);
-        }
+//        $tweet = auth()->user()->tweets()->find($id);
+//
+//        if (!$tweet) {
+//            return $this->sendError('Tweet not found', null, 400);
+//        }
 
         try {
             $tweet->delete();
