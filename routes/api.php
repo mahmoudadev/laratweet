@@ -20,7 +20,7 @@ Route::middleware('auth:api')->group( function () {
 
 
     Route::get('users/follow/{user}', 'API\UsersFollowController@follow');
-
+    Route::get('timeline', 'API\TimelineController@index');
     Route::post('tweets/', 'API\TweetsController@store');
     Route::delete('tweets/{tweet}', 'API\TweetsController@destroy');
 
