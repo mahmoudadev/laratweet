@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\v1;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\UsersRegisterRequest;
 use App\User;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\API\BaseController as BaseController;
@@ -16,25 +17,11 @@ class AuthController extends BaseController
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register(Request $request)
+    public function register(UsersRegisterRequest $request)
     {
-
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required',
-            'c_password' => 'required|same:password',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
-        ]);
-
-        if ($validator->fails()) {
-            return $this->sendError('Validation Error', $validator->errors());
-        }
-
-
         $imgPath = $request->file('image')->store('avatars');
 
-        $data = $request->all();
+        $data = $request->validated();
         $data['password'] = bcrypt($data['password']);
         $data['image'] = $imgPath;
         $user = User::create($data);
