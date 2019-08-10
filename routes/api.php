@@ -13,20 +13,22 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::post('register', 'API\AuthController@register');
-Route::post('login', 'API\AuthController@login');
 
-Route::middleware('auth:api')->group( function () {
+Route::group(['prefix' => 'v1'], function () {
 
-
-    Route::get('users/follow/{user}', 'API\UsersFollowController@follow');
-    Route::get('timeline', 'API\TimelineController@index');
-    Route::post('tweets/', 'API\TweetsController@store');
-    Route::delete('tweets/{tweet}', 'API\TweetsController@destroy');
+    Route::post('register', 'API\v1\AuthController@register');
+    Route::post('login', 'API\v1\AuthController@login');
 
 });
 
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
+
+
+    Route::get('users/follow/{user}', 'API\v1\UsersFollowController@follow');
+    Route::get('timeline', 'API\v1\TimelineController@index');
+    Route::post('tweets/', 'API\v1\TweetsController@store');
+    Route::delete('tweets/{tweet}', 'API\v1\TweetsController@destroy');
+
 });
+
