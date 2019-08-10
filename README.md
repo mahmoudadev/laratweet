@@ -26,6 +26,11 @@ php artisan key:generate
 php artisan migrate
 ```
 
+- install passport access keys
+```
+php artisan passport:install
+```
+
  ##### Main system API's endpoints:
  
  ```shell script
