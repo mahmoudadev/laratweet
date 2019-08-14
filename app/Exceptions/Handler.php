@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Validation\ValidationException;
 
 class Handler extends ExceptionHandler
 {
@@ -51,7 +52,7 @@ class Handler extends ExceptionHandler
             $response =[
                 'success' => false,
                 'message' => 'Data not found',
-                'error' => $exception->getMessage(),
+                'errors' => $exception->getMessage(),
             ];
             return response()->json($response, 400);
 
@@ -60,4 +61,18 @@ class Handler extends ExceptionHandler
 
         return parent::render($request, $exception);
     }
+
+    /*
+     *  customize validation response format globally for all responses
+     */
+    protected function invalidJson($request, ValidationException $exception)
+    {
+        return response()->json([
+            'success' => false,
+                'message' => 'The given data is invalid',
+                'errors' => $exception->errors()
+        ], $exception->status);
+    }
+
+
 }

@@ -35,7 +35,10 @@ class TimelineController extends BaseController
             }
         }
 
-        return $this->sendResponse($response, 'data retrieved successfully');
-
+        if (!empty($response)) {
+            return $this->sendResponse($response, 'data retrieved successfully');
+        }else{
+            return $this->sendResponse($response, 'Empty!, there are no tweets yet');
+        }
     }
 }

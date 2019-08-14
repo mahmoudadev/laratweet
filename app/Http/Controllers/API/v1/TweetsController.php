@@ -16,8 +16,9 @@ class TweetsController extends BaseController
     public function store(TweetStoreRequest $request)
     {
 
+        $validated = $request->validated();
         $tweet = new Tweet();
-        $tweet->content = $request->get('content');
+        $tweet->content = $validated['content'];
 
         try {
             auth()->user()->tweets()->save($tweet);
@@ -31,7 +32,7 @@ class TweetsController extends BaseController
 
     public function destroy(Tweet $tweet)
     {
-        // IF I we need to restrict this endpoint to destroy only
+        // IF we need to restrict this endpoint to destroy only
         // the tweets that owned by authenticated user
 
 //        $tweet = auth()->user()->tweets()->find($id);
